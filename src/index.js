@@ -9,15 +9,20 @@ import App from './components/App';
 import SignIn from './components/SignIn';
 import { fbSuccessResponse } from './actions';
 import reducer from './reducers';
+import {bake_cookie, read_cookie} from 'sfcookies';
 
-let facebookResponsePayload = {response: null};
-
-if(facebookResponsePayload.response == null){
-  browserHistory.replace('/signin');
-}else{
-  browserHistory.replace('/app');
-}
 const store = createStore(reducer);
+check_access();
+export function check_access(){
+  if(read_cookie('authenticated_user') == 'granted'){
+    console.log('authenticated_user', read_cookie('authenticated_user'));
+    browserHistory.replace('/app');
+  }else{
+    console.log('authenticated_user', read_cookie('authenticated_user'));
+    browserHistory.replace('/signin');
+  }
+}
+
 
 ReactDOM.render(
   <Provider store={store}>

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import FacebookLogin from 'react-facebook-login';
+import {bake_cookie, read_cookie} from 'sfcookies';
+import { check_access } from '../index'
 
 class SignIn extends Component{
   constructor(props){
@@ -16,6 +18,8 @@ class SignIn extends Component{
       this.setState({response})
       console.log('response from facebook', response);
       console.log('State', this.state);
+      bake_cookie('authenticated_user', 'granted');
+      check_access()
     }
     return(
       <FacebookLogin
